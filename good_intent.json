@@ -1,0 +1,24 @@
+{"intents": [
+        {"tag": "picture",
+         "patterns": ["picture", "image", "drawing", "portrait", "painting"],
+         "responses": ["So you liked the picture, good!", "Yes, the picture was nice!", "I agree that the picture was the best!"],
+         "context_set": ""
+        },
+        {"tag": "length",
+         "patterns": ["long", "short", "length", "amount"],
+         "responses": ["Yes, the length was perfect!", "Yes, just enough information!", "I liked the length aswell!"]
+        },
+        {"tag": "information",
+         "patterns": ["content", "information", "details", "facts", ""],
+         "responses": ["Glad you found the content good!", "Yes, it was a very interesting wiki page!", "I learned alot of new information aswell!"]
+        },
+        {"tag": "language",
+         "patterns": ["language", "easy to understand", "phrase", "understandable", "straightforward"],
+         "responses": ["Yes, it was a nice and easy read!", "I found the information apparent aswell!"]
+        },
+        {"tag": "links",
+         "patterns": ["sources", "links"],
+         "responses": ["Yes, its easy to confirm all the informtion!", "Absolutely, the sources are very good!"]
+        }
+   ]
+}

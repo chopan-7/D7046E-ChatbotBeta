@@ -1,0 +1,24 @@
+{"intents": [
+        {"tag": "picture",
+         "patterns": ["picture", "image", "drawing", "portrait", "painting", "pic"],
+         "responses": ["Im sorry you did not like the picture!", "I agree, the picture was bad.", "You are right, there was really no good image!"],
+         "context_set": ""
+        },
+        {"tag": "length",
+         "patterns": ["long", "short", "length", "amount"],
+         "responses": ["You're correct, the length was not good...", "Yes, bad amount of information"]
+        },
+        {"tag": "information",
+         "patterns": ["content", "information", "details", "facts", ""],
+         "responses": ["Yes, the content was not sufficient.", "Agreed, the content was bad.", "Yes - i did not learn a thing!"]
+        },
+        {"tag": "language",
+         "patterns": ["language", "hard to understand", "phrase"],
+         "responses": ["You're right, it was hard to understand.", "Yes, pretty much impossible to retrive any information"]
+        },
+        {"tag": "links",
+         "patterns": ["sources", "links"],
+         "responses": ["I agree, no sufficient sources to fact check anything!", "Absolutely, the sources are very bad!"]
+        }
+   ]
+}
