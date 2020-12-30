@@ -1,5 +1,42 @@
 from ChatbotBeta import *
 
+import random
+import json
+
+##### GOOD #####
+with open('good_intent.json', 'r') as json_data:
+    good_intents = json.load(json_data)
+
+FILE = "good_data.pth"
+good_data = torch.load(FILE)
+input_size = good_data["input_size"]
+hidden_size = good_data["hidden_size"]
+output_size = good_data["output_size"]
+all_words = good_data['all_words']
+tags = good_data['tags']
+model_state = good_data["model_state"]
+
+good_model = NeuralNet(input_size, hidden_size, output_size).to(device)
+good_model.load_state_dict(model_state)
+good_model.eval()
+
+##### BAD #####
+with open('bad_intent.json', 'r') as json_data:
+    bad_intents = json.load(json_data)
+
+FILE = "bad_data.pth"
+bad_data = torch.load(FILE)
+input_size = bad_data["input_size"]
+hidden_size = bad_data["hidden_size"]
+output_size = bad_data["output_size"]
+all_words = bad_data['all_words']
+tags = bad_data['tags']
+model_state = bad_data["model_state"]
+
+bad_model = NeuralNet(input_size, hidden_size, output_size).to(device)
+bad_model.load_state_dict(model_state)
+bad_model.eval() 
+
 def main():
     model = torch.load("./IMDB_Model.pt")
     # model.eval()
@@ -28,8 +65,64 @@ def main():
         training_entry = torch.argmax(prediction[0])
         if training_entry == 1:
             print("Chatbot: oh you think its good")
+            positive()
         else:
             print("Chatbot: you think its bad")
-                
+            negative()
+ 
+def positive():
+    print("Let's chat! (type 'quit' to exit)")
+    while True:
+        # sentence = "do you use credit cards?"
+        sentence = input("You: ")
+        if sentence == "quit":
+            break
+
+        sentence = tokenize(sentence)
+        X = bag_of_words(sentence, all_words)
+        X = X.reshape(1, X.shape[0])
+        X = torch.from_numpy(X).to(device)
+
+        output = model(X)
+        _, predicted = torch.max(output, dim=1)
+
+        tag = tags[predicted.item()]
+
+        probs = torch.softmax(output, dim=1)
+        prob = probs[0][predicted.item()]
+        if prob.item() > 0.75:
+            for intent in good_intents['intents']:
+                if tag == intent["tag"]:
+                    print(f"{bot_name}: {random.choice(intent['responses'])}")
+        else:
+            print(f"{bot_name}: I do not understand...")
+            
+def negative():
+    print("Let's chat! (type 'quit' to exit)")
+    while True:
+        # sentence = "do you use credit cards?"
+        sentence = input("You: ")
+        if sentence == "quit":
+            break
+
+        sentence = tokenize(sentence)
+        X = bag_of_words(sentence, all_words)
+        X = X.reshape(1, X.shape[0])
+        X = torch.from_numpy(X).to(device)
+
+        output = model(X)
+        _, predicted = torch.max(output, dim=1)
+
+        tag = tags[predicted.item()]
+
+        probs = torch.softmax(output, dim=1)
+        prob = probs[0][predicted.item()]
+        if prob.item() > 0.75:
+            for intent in bad_intents['intents']:
+                if tag == intent["tag"]:
+                    print(f"{bot_name}: {random.choice(intent['responses'])}")
+        else:
+            print(f"{bot_name}: I do not understand...")
+            
 if __name__ == "__main__":
     main()                
