@@ -7,24 +7,20 @@ import json
 with open('good_intent.json', 'r') as json_data:
     good_intents = json.load(json_data)
 
-FILE = "good_data.pth"
-good_data = torch.load(FILE)
-input_size = good_data["input_size"]
-hidden_size = good_data["hidden_size"]
-output_size = good_data["output_size"]
-all_words = good_data['all_words']
-tags = good_data['tags']
-model_state = good_data["model_state"]
+good_dataset = torch.load('./goodIntent_Dataset.pt')
 
-good_model = NeuralNet(input_size, hidden_size, output_size).to(device)
-good_model.load_state_dict(model_state)
-good_model.eval()
+all_words = good_dataset.all_words
+tags = good_dataset.tags
+
+good_model = torch.load('./goodIntent_Model.pt')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+#good_model.eval()
 
 ##### BAD #####
-with open('bad_intent.json', 'r') as json_data:
+"""with open('bad_intent.json', 'r') as json_data:
     bad_intents = json.load(json_data)
 
-FILE = "bad_data.pth"
+FILE = "badIntent_Model.pt"
 bad_data = torch.load(FILE)
 input_size = bad_data["input_size"]
 hidden_size = bad_data["hidden_size"]
@@ -33,9 +29,8 @@ all_words = bad_data['all_words']
 tags = bad_data['tags']
 model_state = bad_data["model_state"]
 
-bad_model = NeuralNet(input_size, hidden_size, output_size).to(device)
-bad_model.load_state_dict(model_state)
-bad_model.eval() 
+bad_model = torch.load(model_state)
+bad_model.eval() """
 
 def main():
     model = torch.load("./IMDB_Model.pt")
@@ -71,6 +66,7 @@ def main():
             negative()
  
 def positive():
+    bot_name = 'Hitler'
     print("Let's chat! (type 'quit' to exit)")
     while True:
         # sentence = "do you use credit cards?"
@@ -83,7 +79,7 @@ def positive():
         X = X.reshape(1, X.shape[0])
         X = torch.from_numpy(X).to(device)
 
-        output = model(X)
+        output = good_model(X)
         _, predicted = torch.max(output, dim=1)
 
         tag = tags[predicted.item()]
