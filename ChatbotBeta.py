@@ -86,7 +86,7 @@ class ChatbotDataset(Dataset):
         print(f'Dataset {name} is saved to {dir}')
         return torch.save(self, dir+name)
 
-    def load(file):
+    def load(self, file):
         # load dataset
         print(f'Loading dataset {file}')
         return torch.load(file)
@@ -189,7 +189,7 @@ class ClassyModel(nn.Module):
         torch.save(self.state_dict(), dir+name)
         print(f'State {name} is saved to {dir}')
 
-    def loadModel(file):
+    def loadModel(self, file):
         print(f'Model {file} is loaded.')
         return torch.load(file)
 
@@ -252,7 +252,7 @@ class NeuralNet(nn.Module):
         torch.save(self.state_dict(), dir+name)
         print(f'State {name} is saved to {dir}')
 
-    def loadModel(file):
+    def loadModel(self, file):
         print(f'Model {file} is loaded.')
         return torch.load(file)
 

@@ -5,7 +5,7 @@
          "context_set": ""
         },
         {"tag": "length",
-         "patterns": ["long", "short", "length", "amount"],
+         "patterns": ["long", "short", "length", "amount", ""],
          "responses": ["You're correct, the length was not good...", "Yes, bad amount of information"]
         },
         {"tag": "information",
