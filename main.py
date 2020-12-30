@@ -3,20 +3,31 @@ from ChatbotBeta import *
 import random
 import json
 
+bot_name = 'Hitler'
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 ##### GOOD #####
 with open('good_intent.json', 'r') as json_data:
     good_intents = json.load(json_data)
 
 good_dataset = torch.load('./goodIntent_Dataset.pt')
 
-all_words = good_dataset.all_words
-tags = good_dataset.tags
+good_words = good_dataset.all_words
+good_tags = good_dataset.tags
 
 good_model = torch.load('./goodIntent_Model.pt')
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 #good_model.eval()
 
 ##### BAD #####
+with open('bad_intent.json', 'r') as json_data:
+    bad_intents = json.load(json_data)
+
+bad_dataset = torch.load('./badIntent_Dataset.pt')
+
+bad_words = good_dataset.all_words
+bad_tags = good_dataset.tags
+
+bad_model = torch.load('./badIntent_Model.pt')
 """with open('bad_intent.json', 'r') as json_data:
     bad_intents = json.load(json_data)
 
@@ -35,7 +46,7 @@ bad_model.eval() """
 def main():
     model = torch.load("./IMDB_Model.pt")
     # model.eval()
-    dataset =  ChatbotDataset.load("./IMDB_Dataset.pt")
+    dataset =  torch.load("./IMDB_Dataset.pt")
 
     while True:
         response = requests.get("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=info&list=&meta=&generator=random&inprop=url&grnnamespace=0")
@@ -47,7 +58,7 @@ def main():
             except:
                 continue
                 
-        user_choice = input(f'Chatbot: What do you think about {title}?\n url: {url} \n')
+        user_choice = input(f"{bot_name}: What do you think about {title}?\n url: {url} \n")
         print(f'You: {user_choice}')
         
         if user_choice == "exit":
@@ -59,14 +70,13 @@ def main():
         
         training_entry = torch.argmax(prediction[0])
         if training_entry == 1:
-            print("Chatbot: oh you think its good")
+            print(f"{bot_name}: oh you think its good")
             positive()
         else:
-            print("Chatbot: you think its bad")
+            print(f"{bot_name}: you think its bad")
             negative()
  
 def positive():
-    bot_name = 'Hitler'
     print("Let's chat! (type 'quit' to exit)")
     while True:
         # sentence = "do you use credit cards?"
@@ -75,17 +85,18 @@ def positive():
             break
 
         sentence = tokenize(sentence)
-        X = bag_of_words(sentence, all_words)
+        X = bag_of_words(sentence, good_words)
         X = X.reshape(1, X.shape[0])
         X = torch.from_numpy(X).to(device)
 
         output = good_model(X)
         _, predicted = torch.max(output, dim=1)
 
-        tag = tags[predicted.item()]
+        tag = good_tags[predicted.item()]
 
         probs = torch.softmax(output, dim=1)
         prob = probs[0][predicted.item()]
+
         if prob.item() > 0.75:
             for intent in good_intents['intents']:
                 if tag == intent["tag"]:
@@ -102,17 +113,18 @@ def negative():
             break
 
         sentence = tokenize(sentence)
-        X = bag_of_words(sentence, all_words)
+        X = bag_of_words(sentence, bad_words)
         X = X.reshape(1, X.shape[0])
         X = torch.from_numpy(X).to(device)
 
-        output = model(X)
+        output = bad_model(X)
         _, predicted = torch.max(output, dim=1)
 
-        tag = tags[predicted.item()]
+        tag = bad_tags[predicted.item()]
 
         probs = torch.softmax(output, dim=1)
         prob = probs[0][predicted.item()]
+
         if prob.item() > 0.75:
             for intent in bad_intents['intents']:
                 if tag == intent["tag"]:
