@@ -3,7 +3,7 @@ from ChatbotBeta import *
 import random
 import json
 
-bot_name = 'Hitler'
+bot_name = 'Bot'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 ##### GOOD #####
