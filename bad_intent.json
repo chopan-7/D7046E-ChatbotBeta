@@ -19,6 +19,10 @@
         {"tag": "links",
          "patterns": ["sources", "links"],
          "responses": ["I agree, no sufficient sources to fact check anything!", "Absolutely, the sources are very bad!"]
+        },
+        {"tag": "EOS",
+         "patterns": ["done", "links", "finished", "next"],
+         "responses": ["Alright, what do you think of this next Wikipedia article?", "Alright, lets do another one!"]
         }
    ]
 }
