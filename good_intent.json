@@ -19,6 +19,10 @@
         {"tag": "links",
          "patterns": ["sources", "links"],
          "responses": ["Yes, its easy to confirm all the informtion!", "Absolutely, the sources are very good!"]
+        },
+        {"tag": "EOS",
+         "patterns": ["next", "done", "finished", "that is all", "that's all", "move on", "moving on", "another"],
+         "responses": ["Ok! Lets move on to the next article.", "Thanks for the feedback! What do you think about this next article?"]
         }
    ]
 }
