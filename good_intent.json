@@ -1,6 +1,6 @@
 {"intents": [
         {"tag": "picture",
-         "patterns": ["picture", "image", "drawing", "portrait", "painting"],
+         "patterns": ["picture", "image", "drawing", "portrait", "painting","gif","",""],
          "responses": ["So you liked the picture, good!", "Yes, the picture was nice!", "I agree that the picture was the best!"],
          "context_set": ""
         },
@@ -9,7 +9,7 @@
          "responses": ["Yes, the length was perfect!", "Yes, just enough information!", "I liked the length aswell!"]
         },
         {"tag": "information",
-         "patterns": ["content", "information", "details", "facts", ""],
+         "patterns": ["content", "information", "details", "facts", "text", ""],
          "responses": ["Glad you found the content good!", "Yes, it was a very interesting wiki page!", "I learned alot of new information aswell!"]
         },
         {"tag": "language",
@@ -21,7 +21,7 @@
          "responses": ["Yes, its easy to confirm all the informtion!", "Absolutely, the sources are very good!"]
         },
         {"tag": "EOS",
-         "patterns": ["next", "done", "finished", "that is all", "that's all", "move on", "moving on", "another"],
+         "patterns": ["next", "done", "finished", "that is all", "that's all", "move on", "moving on", "another", "feedback","that is it"],
          "responses": ["Ok! Lets move on to the next article.", "Thanks for the feedback! What do you think about this next article?"]
         }
    ]

@@ -24,24 +24,10 @@ with open('bad_intent.json', 'r') as json_data:
 
 bad_dataset = torch.load('./badIntent_Dataset.pt')
 
-bad_words = good_dataset.all_words
-bad_tags = good_dataset.tags
+bad_words = bad_dataset.all_words
+bad_tags = bad_dataset.tags
 
 bad_model = torch.load('./badIntent_Model.pt')
-"""with open('bad_intent.json', 'r') as json_data:
-    bad_intents = json.load(json_data)
-
-FILE = "badIntent_Model.pt"
-bad_data = torch.load(FILE)
-input_size = bad_data["input_size"]
-hidden_size = bad_data["hidden_size"]
-output_size = bad_data["output_size"]
-all_words = bad_data['all_words']
-tags = bad_data['tags']
-model_state = bad_data["model_state"]
-
-bad_model = torch.load(model_state)
-bad_model.eval() """
 
 def main():
     model = torch.load("./IMDB_Model.pt")
@@ -70,19 +56,14 @@ def main():
         
         training_entry = torch.argmax(prediction[0])
         if training_entry == 1:
-            print(f"{bot_name}: oh you think its good")
             positive()
         else:
-            print(f"{bot_name}: you think its bad")
             negative()
  
 def positive():
-    print("Let's chat! (type 'quit' to exit)")
+    print(f"{bot_name}: I'm glad you enjoyed it. Can you tell me a bit more about what you liked?")
     while True:
-        # sentence = "do you use credit cards?"
         sentence = input("You: ")
-        if sentence == "quit":
-            break
 
         sentence = tokenize(sentence)
         X = bag_of_words(sentence, good_words)
@@ -96,21 +77,22 @@ def positive():
 
         probs = torch.softmax(output, dim=1)
         prob = probs[0][predicted.item()]
-
+        
         if prob.item() > 0.75:
             for intent in good_intents['intents']:
                 if tag == intent["tag"]:
                     print(f"{bot_name}: {random.choice(intent['responses'])}")
         else:
             print(f"{bot_name}: I do not understand...")
+
+        if tag == 'EOS':
+            break
             
 def negative():
-    print("Let's chat! (type 'quit' to exit)")
+    print(f"{bot_name}: Can you tell me a bit more about what you didn't like?")
     while True:
         # sentence = "do you use credit cards?"
         sentence = input("You: ")
-        if sentence == "quit":
-            break
 
         sentence = tokenize(sentence)
         X = bag_of_words(sentence, bad_words)
@@ -124,13 +106,16 @@ def negative():
 
         probs = torch.softmax(output, dim=1)
         prob = probs[0][predicted.item()]
-
+        
         if prob.item() > 0.75:
             for intent in bad_intents['intents']:
                 if tag == intent["tag"]:
                     print(f"{bot_name}: {random.choice(intent['responses'])}")
         else:
             print(f"{bot_name}: I do not understand...")
+
+        if tag == 'EOS':
+            break
             
 if __name__ == "__main__":
     main()                

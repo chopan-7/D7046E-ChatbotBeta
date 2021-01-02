@@ -5,11 +5,11 @@
          "context_set": ""
         },
         {"tag": "length",
-         "patterns": ["long", "short", "length", "amount", ""],
+         "patterns": ["long", "short", "length", "amount", "too long"],
          "responses": ["You're correct, the length was not good...", "Yes, bad amount of information"]
         },
         {"tag": "information",
-         "patterns": ["content", "information", "details", "facts", ""],
+         "patterns": ["content", "information", "details", "facts", "text","", ""],
          "responses": ["Yes, the content was not sufficient.", "Agreed, the content was bad.", "Yes - i did not learn a thing!"]
         },
         {"tag": "language",
@@ -21,7 +21,7 @@
          "responses": ["I agree, no sufficient sources to fact check anything!", "Absolutely, the sources are very bad!"]
         },
         {"tag": "EOS",
-         "patterns": ["done", "links", "finished", "next"],
+         "patterns": ["done", "links", "finished", "next", "feedback", "that is all", "that's all","that is it", "that's it"],
          "responses": ["Alright, what do you think of this next Wikipedia article?", "Alright, lets do another one!"]
         }
    ]
