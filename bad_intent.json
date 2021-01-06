@@ -1,6 +1,6 @@
 {"intents": [
         {"tag": "picture",
-         "patterns": ["picture", "image", "drawing", "portrait", "painting", "pic", "diagram","chart"],
+         "patterns": ["picture", "image", "drawing", "portrait", "painting","gif","diagram","chart"],
          "responses": ["Im sorry you did not like the picture!", "I agree, the picture was bad.", "You are right, there was really no good image!"],
          "context_set": ""
         },
@@ -21,7 +21,7 @@
          "responses": ["I agree, no sufficient sources to fact check anything!", "Absolutely, the sources are very bad!"]
         },
         {"tag": "EOS",
-         "patterns": ["done", "links", "finished", "next", "feedback", "that is all", "that's all","that is it", "that's it"],
+         "patterns": ["next", "done", "finished", "that is all", "that's all", "move on", "moving on", "another", "feedback","that is it"],
          "responses": ["Alright, what do you think of this next Wikipedia article?", "Alright, lets do another one!"]
         }
    ]
