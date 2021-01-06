@@ -1,6 +1,6 @@
 {"intents": [
         {"tag": "picture",
-         "patterns": ["picture", "image", "drawing", "portrait", "painting","gif","",""],
+         "patterns": ["picture", "image", "drawing", "portrait", "painting","gif","diagram","chart",""],
          "responses": ["So you liked the picture, good!", "Yes, the picture was nice!", "I agree that the picture was the best!"],
          "context_set": ""
         },
